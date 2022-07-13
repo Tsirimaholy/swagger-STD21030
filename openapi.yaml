@@ -162,6 +162,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Courses'
+  /courses/{id}:
+    get:
+      tags:
+        - Courses
+      summary: "Get course by identifier"
+      description: "Get course by identifier"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: The identified course
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courses'
+        400:
+          description: "Bad request"
 components:
   schemas:
     CreateStudent:
