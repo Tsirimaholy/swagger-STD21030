@@ -54,6 +54,7 @@ paths:
     get:
       tags:
         - Students
+      summary: Get student by identifier
       description: Get the student with the specified id
       parameters:
         - name: id
@@ -70,10 +71,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Student"
-
     delete:
       tags:
         - Students
+      summary: Delete a student by identifier
       description: Delete a student
       parameters:
         - name: id
@@ -94,7 +95,8 @@ paths:
     get:
       tags:
         - Courses
-      description: get all courses
+      summary: Get all courses
+      description: Get all courses
       responses:
         200:
           description: List of all courses
@@ -123,12 +125,20 @@ paths:
     put:
       tags:
         - Courses
+      summary: Change all info about a course
       description: "Change all info about a course"
       parameters:
         - name: id
           in: query
+          required: true
           schema:
             type: integer
+      requestBody:
+        description: All info about the new course
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Courses'
       responses:
         "200":
           description: "OK"
