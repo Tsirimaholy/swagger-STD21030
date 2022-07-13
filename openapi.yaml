@@ -109,8 +109,8 @@ paths:
     post:
       tags:
         - Courses
-      summary: Create new student
-      description: Create new student
+      summary: Create new course
+      description: Create new course
       responses:
         200:
           description: List of all courses
