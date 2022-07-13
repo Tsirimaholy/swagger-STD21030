@@ -120,9 +120,20 @@ paths:
                 $ref: '#/components/schemas/CreateNewCourses'
         400:
           description: Bad request
-
-
-
+    put:
+      tags:
+        - Courses
+      description: "Change all info about a course"
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK"
+        400:
+          description: "Bad Request"
     patch:
       tags:
         - Courses
