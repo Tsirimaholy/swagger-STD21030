@@ -1,2 +1,3 @@
 # swagger
-https://raw.githubusercontent.com/Tsirimaholy/swagger/main/openapi.yaml
+
+- TD1: https://app.swaggerhub.com/apis/Tsirimaholy/STD21030/1
