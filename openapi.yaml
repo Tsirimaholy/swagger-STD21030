@@ -1,14 +1,16 @@
 openapi: 3.0.1
 info:
   title: STD21030 API
-  description: 'Global description of my API'
+  description: "Global description of my API"
   version: 1.0.0
 servers:
   - url: https://STD21000.com
 tags:
   - name: Students
+    description: All About student
 
   - name: Courses
+    description: All about courses
 paths:
   /students:
     get:
@@ -25,7 +27,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Student'
+                  $ref: "#/components/schemas/Student"
         400:
           description: Bad request
     post:
@@ -39,7 +41,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateStudent'
+              $ref: "#/components/schemas/CreateStudent"
         required: true
       responses:
         200:
@@ -47,15 +49,58 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Student'
+                $ref: "#/components/schemas/Student"
         400:
           description: Bad request
+    put:
+      tags:
+        - Students
+      summary: Add new student
+      description: "Add new student"
+      operationId: putStudent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStudent"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              example: { "code": "OK", "message": "Student created" }
+        400:
+          description: "Badd request"
+    patch:
+      tags:
+        - Students
+      summary: Update a student info
+      description: "Update a student"
+      operationId: updateStudent
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: { "name": "Rabe", "birth-date": "22-07-01" }
+        "400":
+          description: Bad request
+
   /students/{id}:
     get:
       tags:
         - Students
       summary: Get student by identifier
       description: Get the student with the specified id
+      operationId: getStudentById
       parameters:
         - name: id
           description: the id of the student
@@ -71,11 +116,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Student"
+        400:
+          description: Bad request
     delete:
       tags:
         - Students
       summary: Delete a student by identifier
       description: Delete a student
+      operationId: deleteStudent
       parameters:
         - name: id
           required: true
@@ -88,15 +136,16 @@ paths:
           content:
             application/json:
               schema:
-                example: {
-                           message:student deleted
-                }
+                example: { message:student deleted }
+        400:
+          description: Bad request
   /courses:
     get:
       tags:
         - Courses
       summary: Get all courses
       description: Get all courses
+      operationId: getCourses
       responses:
         200:
           description: List of all courses
@@ -113,13 +162,14 @@ paths:
         - Courses
       summary: Create new course
       description: Create new course
+      operationId: createCourse
       responses:
         200:
           description: List of all courses
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateNewCourses'
+                $ref: "#/components/schemas/CreateNewCourses"
         400:
           description: Bad request
     put:
@@ -127,6 +177,7 @@ paths:
         - Courses
       summary: Change all info about a course
       description: "Change all info about a course"
+      operationId: addCourse
       parameters:
         - name: id
           in: query
@@ -138,7 +189,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Courses'
+              $ref: "#/components/schemas/Courses"
       responses:
         "200":
           description: "OK"
@@ -149,25 +200,42 @@ paths:
         - Courses
       summary: Modify a course
       description: Update existing course
+      operationId: updateCourse
+      parameters:
+        - in: query
+          name: id
+          description: The course identifier
+          required: true
+          schema:
+            type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Courses'
+              example: { "code": "prog2" }
         required: true
       responses:
         200:
           description: The course modified
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Courses'
+              example:
+                {
+                  "id": 1,
+                  "code": "prog2",
+                  "name": "algorithmique",
+                  "teacher": "Tokimahery ramarozaka",
+                  "createdDate": "2022-07-15",
+                }
+        400:
+          description: Bad request
   /courses/{id}:
     get:
       tags:
         - Courses
       summary: "Get course by identifier"
       description: "Get course by identifier"
+      operationId: getCourse
       parameters:
         - name: id
           in: path
@@ -180,9 +248,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Courses'
+                $ref: "#/components/schemas/Courses"
         400:
           description: "Bad request"
+    delete:
+      tags:
+        - Courses
+      summary: Delete course
+      description: "Delete course"
+      operationId: deleteCourseById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              example: { "code": OK, 'message':'Ressouce succesfully deleted' }
+        400:
+          description: Bad request
+
 components:
   schemas:
     CreateStudent:
@@ -197,7 +286,7 @@ components:
           example: "2022-01-01"
     Student:
       allOf:
-        - $ref: '#/components/schemas/CreateStudent'
+        - $ref: "#/components/schemas/CreateStudent"
       type: object
       properties:
         id:
@@ -220,7 +309,7 @@ components:
           format: date
     Courses:
       allOf:
-        - $ref: '#/components/schemas/CreateNewCourses'
+        - $ref: "#/components/schemas/CreateNewCourses"
       type: object
       properties:
         id:
