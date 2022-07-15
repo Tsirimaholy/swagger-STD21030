@@ -4,7 +4,7 @@ info:
   description: "Global description of my API"
   version: 1.0.0
 servers:
-  - url: https://STD21000.com
+  - url: https://STD21030.com
 tags:
   - name: Students
     description: All About student
@@ -136,7 +136,10 @@ paths:
           content:
             application/json:
               schema:
-                example: { message:student deleted }
+                example: 
+                  { 
+                    'message':'Student deleted'
+                  }
         400:
           description: Bad request
   /courses:
