@@ -78,13 +78,27 @@ paths:
       summary: Update a student info
       description: "Update a student"
       operationId: updateStudent
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: integer
-
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Student"
+            examples:
+              Change phone number:
+                value:
+                    id: 1
+                    country: "261"
+              Change name:
+                value:
+                    id: 1
+                    name: "Rabe"
+              Change birth day:
+                value:
+                  id: 1
+                  birth_date: "2002-01-01"
+                  
       responses:
         "200":
           description: OK
@@ -93,7 +107,6 @@ paths:
               example: { "name": "Rabe", "birth-date": "22-07-01" }
         "400":
           description: Bad request
-
   /students/{id}:
     get:
       tags:
@@ -181,12 +194,6 @@ paths:
       summary: Change all info about a course
       description: "Change all info about a course"
       operationId: addCourse
-      parameters:
-        - name: id
-          in: query
-          required: true
-          schema:
-            type: integer
       requestBody:
         description: All info about the new course
         content:
@@ -204,18 +211,12 @@ paths:
       summary: Modify a course
       description: Update existing course
       operationId: updateCourse
-      parameters:
-        - in: query
-          name: id
-          description: The course identifier
-          required: true
-          schema:
-            type: integer
+      
       requestBody:
         content:
           application/json:
             schema:
-              example: { "code": "prog2" }
+              $ref: '#/components/schemas/Courses'
         required: true
       responses:
         200:
@@ -295,6 +296,19 @@ components:
         id:
           type: integer
           example: 10
+        numbers:
+          $ref: "#/components/schemas/PhoneNumber"
+    PhoneNumber:
+      type: array
+      items:
+        properties:
+          number:
+            type: string
+            example: "340704341"
+          country:
+            type: string
+            example: "261"
+
     CreateNewCourses:
       type: object
       properties:
