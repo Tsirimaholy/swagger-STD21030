@@ -69,7 +69,9 @@ paths:
           description: "OK"
           content:
             application/json:
-              example: { "code": "OK", "message": "Student created" }
+              example: 
+                code: "OK"
+                message: "Student created"
         400:
           description: "Badd request"
     patch:
@@ -104,7 +106,9 @@ paths:
           description: OK
           content:
             application/json:
-              example: { "name": "Rabe", "birth-date": "22-07-01" }
+              example: 
+                name: "Rabe"
+                birth-date: "22-07-01"
         "400":
           description: Bad request
   /students/{id}:
@@ -121,7 +125,6 @@ paths:
           in: path
           schema:
             type: integer
-
       responses:
         200:
           description: the student that own the specified id
@@ -150,9 +153,7 @@ paths:
             application/json:
               schema:
                 example: 
-                  { 
-                    'message':'Student deleted'
-                  }
+                  message: 'Student deleted'
         400:
           description: Bad request
   /courses:
@@ -224,13 +225,11 @@ paths:
           content:
             application/json:
               example:
-                {
-                  "id": 1,
-                  "code": "prog2",
-                  "name": "algorithmique",
-                  "teacher": "Tokimahery ramarozaka",
-                  "createdDate": "2022-07-15",
-                }
+                  id: 1
+                  code: "prog2"
+                  name: "algorithmique"
+                  teacher: "Tokimahery ramarozaka"
+                  createdDate: "2022-07-15"
         400:
           description: Bad request
   /courses/{id}:
@@ -268,11 +267,13 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
-              example: { "code": OK, 'message':'Ressouce succesfully deleted' }
+              example: 
+                code: "OK"
+                message: 'Ressouce deleted'
         400:
           description: Bad request
 
