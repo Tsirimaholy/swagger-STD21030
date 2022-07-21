@@ -1,0 +1,288 @@
+openapi: 3.0.3
+info:
+  version: '1.0'
+  title: Cinema STD21030 API
+  description: |
+    lorem
+servers:
+  - url: 'https://api-cine.std21030'
+paths:
+  '/film':
+    get:
+      tags:
+        - Films
+      summary: Get all films
+      description: Get all films
+      operationId: getAllFilm
+      responses:
+        '200':
+          description: List of all films
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Film'
+                example: 
+                  - id: 0
+                    duration: "2:30"
+                    resume: |
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing"
+                    director: "John doe"
+                    release_date: "2022-01-07"
+                  - id: 0
+                    duration: "2:30"
+                    resume: |
+                      "Lorem ipsum dolor sit amet, co"
+                    director: "John doe"
+                    release_date: "2022-01-07"
+                  
+                    
+        400:
+          description: Bad request
+    put:
+      tags:
+        - Films
+      description: Add new film
+      summary: Add new film
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+      responses:
+        200:
+          description: The created film
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        400:
+          description: Bad request not found
+  '/film/{id}':
+    get:
+      tags:
+        - Films
+      description: Get film by id
+      summary: Get film by id
+      operationId: getFilmByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The identified film
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        400:
+          $ref: '#/components/responses/400'
+    delete:
+      tags:
+        - Films
+      description: Delete a film
+      summary: Delete a  film
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Ressource deleted
+    patch:
+      tags:
+        - Films
+      description: Update film info
+      summary: Update film info
+      operationId: updateFilm
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: |
+          # Action available
+          
+          - Modify the resume
+          - Modify the director name
+          - Change release date
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+            examples:
+              Change resume:
+                value:
+                  resume: "some resume"
+
+      responses:
+        200:
+          description: Ressource updated
+  '/room':
+    get:
+      tags: 
+        - Room
+      description: Get all rooms infos
+      summary: Get all rooms infos
+      parameters: 
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of all rooms with their respective
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+                example: 
+                  - number: 0
+                    capacity: 320
+                  - number: 1
+                    capacity: 200
+                  - number: 0
+                    capacity: 250
+                
+        400:
+          $ref: '#/components/responses/400'
+  '/broadcast':
+      get:
+        tags: 
+          - Projection
+        description: Get the list of movies that will be broadcast
+        summary: Movies that will be broadcast
+        parameters: 
+          - name: page
+            in: query
+            schema:
+              type: integer
+        responses:
+          200:
+            description: List of movies that will be broadcat
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Projection"
+                  example: 
+                    - id: 1
+                      filmId: 1
+                      roomNumber: 1
+                      time: "14:59"
+                    - id: 2
+                      filmId: 4
+                      roomNumber: 5
+                      time: "14:59"
+                    
+                      
+          400:
+            $ref: '#/components/responses/400'
+      put:
+        tags: 
+        - Projection
+        description: Add new projection 
+        summary: Add new projection
+        requestBody:
+          description: The list of projection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddProjection'
+        responses:
+          200:
+            description: Projection succesfully created
+          400:
+            $ref: '#/components/schemas/BadRequestException'
+  '/broadcast/{roomNumber}':
+      patch: 
+        tags: 
+          - Projection
+        description: 'Modify a projection'
+        summary: 'Modify a projection'
+        parameters:
+          - name: roomNumber
+            in: path
+            required: true
+            schema:
+              type: integer
+        requestBody:
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projection'
+        responses:
+          200:
+            description: Projection updated
+          400:
+            $ref: '#/components/responses/400'
+              
+components:
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestException'
+  schemas:
+    Exception:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+    BadRequestException:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        status: 400
+        message: Bad Request
+    Room:
+      properties:
+        number:
+          type: integer
+        capacity:
+          type: number
+    Film:
+      properties:
+        id:
+          type: integer
+        duration:
+          type: string
+        resume:
+          type: string
+        director:
+          type: string
+        release_date:
+          type: string
+          format: date
+    Projection:
+      properties:
+        id:
+          type: string
+        filmId:
+          description: The film id
+          type: string
+        roomNumber:
+          description: The room id
+          type: integer
+        time:
+          description: Diffusion time
+          type: string
+    AddProjection:
+      type: array
+      items:
+        $ref: '#/components/schemas/Projection'
