@@ -250,6 +250,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Categorie'
+        responses:
+          200:
+            description: Succesfully created
       patch:
         tags:
           - Categories
@@ -304,6 +307,8 @@ components:
         release_date:
           type: string
           format: date
+        categorie:
+          $ref: '#/components/schemas/Categories'
     Projection:
       properties:
         id:
