@@ -227,7 +227,42 @@ paths:
             description: Projection updated
           400:
             $ref: '#/components/responses/400'
-              
+  '/categories':
+      get:
+        tags: 
+          - Categories
+        description: List all categories
+        summary: List all available categorie
+        responses:
+          200:
+            description: List of all availabele categories
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Categories'
+      put:
+        tags:
+          - Categories
+        description: Create new categorie
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categorie'
+      patch:
+        tags:
+          - Categories
+        description: Modify a categorie
+        summary : Modify a categorie
+        responses:
+          200:
+            description: The modified categorie
+            content: 
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Categorie'
+
 components:
   responses:
     '400':
@@ -286,3 +321,16 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Projection'
+    Categorie:
+      type: object
+      properties:
+        id:
+          type: integer
+        categorie_name:
+          type: string
+    
+    Categories:
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/Categorie'
