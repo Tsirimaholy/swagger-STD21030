@@ -237,10 +237,11 @@ paths:
           - name: week
             in: query
             required: true
-            description: "The starting day of the week"
+            description: "The n week starting from now"
             schema:
-              type: string
-              format: date
+              type: integer
+              example: 
+                2
         responses:
            200:
             description: List of projection in the specified week
@@ -320,6 +321,8 @@ components:
       properties:
         id:
           type: integer
+        title:
+          type: string
         duration:
           type: string
         resume:
@@ -365,7 +368,7 @@ components:
       properties:
         week:
           type: string
-          format: date-time
+          format: date
           description: "The starting day of the week"
         projectionList:
           type: array
