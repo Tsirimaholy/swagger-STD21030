@@ -227,6 +227,29 @@ paths:
             description: Projection updated
           400:
             $ref: '#/components/responses/400'
+  '/projection':
+      get:
+        tags:
+          - Projection
+        description: "Get the list of projection for a specified week"
+        summary: "Get the list of projection for a specified week"
+        parameters:
+          - name: week
+            in: query
+            required: true
+            description: "The starting day of the week"
+            schema:
+              type: string
+              format: date
+        responses:
+           200:
+            description: List of projection in the specified week
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/week'
+           400:
+            $ref: '#/components/responses/400'
   '/categories':
       get:
         tags: 
@@ -265,7 +288,6 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Categorie'
-
 components:
   responses:
     '400':
@@ -339,3 +361,13 @@ components:
       items:
         allOf:
           - $ref: '#/components/schemas/Categorie'
+    week:
+      properties:
+        week:
+          type: string
+          format: date-time
+          description: "The starting day of the week"
+        projectionList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Film'
